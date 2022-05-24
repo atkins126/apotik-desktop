@@ -48,6 +48,8 @@ type
     img1: TImage;
     lbl11: TLabel;
     edtFakturSales: TEdit;
+    lbl12: TLabel;
+    dtpTglJatuhTempo: TDateTimePicker;
     procedure clearEntitasBarang;
     procedure fokusDbgrid;
     procedure btnKeluarClick(Sender: TObject);
@@ -191,6 +193,7 @@ begin
       btnTambah.Caption := 'Batal[F1]';
 
       btnKeluar.Enabled := false;
+      dtpTglJatuhTempo.Enabled := True;
     end
   else
     begin
@@ -304,7 +307,7 @@ begin
           begin
             close;
             SQL.Clear;
-            SQL.Text := 'select * from tbl_pembelian where no_faktur like ''%'+FormatDateTime('yyyy',Now)+'%''';
+            SQL.Text := 'select * from tbl_pembelian where no_faktur like ''%'+FormatDateTime('mmyyyy',Now)+'%''';
             Open;
 
             if IsEmpty then
@@ -332,6 +335,7 @@ begin
               FieldByName('tgl_pembelian').AsDateTime := dtpTanggalBeli.Date;
               FieldByName('supplier_id').AsString := dblkcbbSupplier.KeyValue;
               FieldByName('no_faktur_supplier').AsString := edtFakturSales.Text;
+              FieldByName('tgl_jatuh_tempo').AsDateTime := dtpTglJatuhTempo.Date;
               Post;
             end;
 
@@ -626,8 +630,12 @@ begin
   btnKeluar.Enabled := True;
   
   edtFakturSales.Clear;
+  dtpTglJatuhTempo.Enabled := false;
+  dtpTglJatuhTempo.Date := Now;
 
   konek;
+
+  id_pembelian := 'kosong';
 end;
 
 end.

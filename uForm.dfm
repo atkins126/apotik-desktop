@@ -1,9 +1,9 @@
 object FMenu: TFMenu
-  Left = 172
-  Top = 86
+  Left = 178
+  Top = 161
   AutoScroll = False
   BorderIcons = []
-  Caption = '.:: Applikasi Kasir Apotek V.1 ::.'
+  Caption = '.:: Applikasi Kasir Apotek V.1.5 ::.'
   ClientHeight = 847
   ClientWidth = 1462
   Color = clGradientInactiveCaption
@@ -19,8 +19,8 @@ object FMenu: TFMenu
   PixelsPerInch = 96
   TextHeight = 13
   object img1: TImage
-    Left = -16
-    Top = 0
+    Left = -40
+    Top = -24
     Width = 1809
     Height = 937
     Picture.Data = {
@@ -23380,8 +23380,8 @@ object FMenu: TFMenu
     Stretch = True
   end
   object lblJam: TLabel
-    Left = 912
-    Top = 104
+    Left = 8
+    Top = 176
     Width = 167
     Height = 75
     Caption = 'lblJam'
@@ -23394,7 +23394,7 @@ object FMenu: TFMenu
   end
   object lbl6: TLabel
     Left = 8
-    Top = 264
+    Top = 88
     Width = 518
     Height = 33
     Caption = 'Selamat Datang Di Aplikasi Kasir Apotik V.1'
@@ -23407,7 +23407,7 @@ object FMenu: TFMenu
   end
   object lbl3: TLabel
     Left = 8
-    Top = 312
+    Top = 136
     Width = 518
     Height = 33
     Caption = 'Selamat Datang Di Aplikasi Kasir Apotik V.1'
@@ -23417,6 +23417,54 @@ object FMenu: TFMenu
     Font.Name = 'Bahnschrift'
     Font.Style = []
     ParentFont = False
+  end
+  object pnl6: TPanel
+    Left = 168
+    Top = 528
+    Width = 233
+    Height = 137
+    Color = clActiveCaption
+    TabOrder = 12
+  end
+  object pnl20: TPanel
+    Left = 1008
+    Top = 528
+    Width = 225
+    Height = 137
+    Color = clActiveCaption
+    TabOrder = 17
+  end
+  object pnl12: TPanel
+    Left = 448
+    Top = 528
+    Width = 225
+    Height = 137
+    Color = clActiveCaption
+    TabOrder = 10
+  end
+  object pnl8: TPanel
+    Left = 728
+    Top = 336
+    Width = 225
+    Height = 137
+    Color = clActiveCaption
+    TabOrder = 6
+  end
+  object pnl4: TPanel
+    Left = 448
+    Top = 336
+    Width = 225
+    Height = 137
+    Color = clActiveCaption
+    TabOrder = 4
+  end
+  object pnl3: TPanel
+    Left = 168
+    Top = 336
+    Width = 233
+    Height = 137
+    Color = clActiveCaption
+    TabOrder = 3
   end
   object stat1: TStatusBar
     Left = 0
@@ -23442,7 +23490,7 @@ object FMenu: TFMenu
     Top = 8
     Width = 1441
     Height = 73
-    TabOrder = 1
+    TabOrder = 0
     object lbl1: TLabel
       Left = 8
       Top = 16
@@ -23450,7 +23498,7 @@ object FMenu: TFMenu
       Height = 43
       Alignment = taCenter
       AutoSize = False
-      Caption = 'Apotik Hamdi Farma'
+      Caption = 'Apotek Sample'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
       Font.Height = -37
@@ -23460,24 +23508,28 @@ object FMenu: TFMenu
     end
   end
   object pnl1: TPanel
-    Left = 8
-    Top = 104
-    Width = 441
+    Left = 160
+    Top = 328
+    Width = 233
     Height = 137
-    Color = clGradientInactiveCaption
-    TabOrder = 2
+    Color = clGradientActiveCaption
+    TabOrder = 1
     object lblTotalPembelian: TLabel
       Left = 8
       Top = 68
-      Width = 361
-      Height = 31
-      Caption = 'Total Pembelian : Rp. 100000000000'
+      Width = 209
+      Height = 43
+      Cursor = crHandPoint
+      Alignment = taCenter
+      AutoSize = False
+      Caption = '0'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
-      Font.Height = -27
+      Font.Height = -37
       Font.Name = 'Arial Narrow'
       Font.Style = [fsItalic]
       ParentFont = False
+      OnClick = lblTotalPembelianClick
     end
     object lbl2: TLabel
       Left = 8
@@ -23494,12 +23546,12 @@ object FMenu: TFMenu
     end
   end
   object pnl2: TPanel
-    Left = 456
-    Top = 104
-    Width = 449
+    Left = 440
+    Top = 328
+    Width = 225
     Height = 137
-    Color = clGradientInactiveCaption
-    TabOrder = 3
+    Color = clGradientActiveCaption
+    TabOrder = 2
     object lbl4: TLabel
       Left = 8
       Top = 24
@@ -23516,15 +23568,271 @@ object FMenu: TFMenu
     object lblTotalPenjualan: TLabel
       Left = 8
       Top = 68
-      Width = 361
-      Height = 31
-      Caption = 'Total Pembelian : Rp. 100000000000'
+      Width = 209
+      Height = 43
+      Cursor = crHandPoint
+      Alignment = taCenter
+      AutoSize = False
+      Caption = '0'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
-      Font.Height = -27
+      Font.Height = -37
       Font.Name = 'Arial Narrow'
       Font.Style = [fsItalic]
       ParentFont = False
+      OnClick = lblTotalPenjualanClick
+    end
+  end
+  object pnl7: TPanel
+    Left = 720
+    Top = 328
+    Width = 225
+    Height = 137
+    Color = clGradientActiveCaption
+    TabOrder = 5
+    object lbl8: TLabel
+      Left = 8
+      Top = 24
+      Width = 214
+      Height = 24
+      Caption = 'Retur Pembelian (Harian)'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -21
+      Font.Name = 'Baskerville Old Face'
+      Font.Style = []
+      ParentFont = False
+    end
+    object lblTotalReturPembelian: TLabel
+      Left = 8
+      Top = 68
+      Width = 209
+      Height = 43
+      Cursor = crHandPoint
+      Alignment = taCenter
+      AutoSize = False
+      Caption = '0'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -37
+      Font.Name = 'Arial Narrow'
+      Font.Style = [fsItalic]
+      ParentFont = False
+      OnClick = lblTotalReturPembelianClick
+    end
+  end
+  object pnl9: TPanel
+    Left = 1008
+    Top = 336
+    Width = 225
+    Height = 137
+    Color = clActiveCaption
+    TabOrder = 7
+  end
+  object pnl10: TPanel
+    Left = 1000
+    Top = 328
+    Width = 225
+    Height = 137
+    Color = clGradientActiveCaption
+    TabOrder = 8
+    object lbl10: TLabel
+      Left = 8
+      Top = 24
+      Width = 207
+      Height = 24
+      Caption = 'Retur Penjualan (Harian)'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -21
+      Font.Name = 'Baskerville Old Face'
+      Font.Style = []
+      ParentFont = False
+    end
+    object lblTtlReturPenjualan: TLabel
+      Left = 8
+      Top = 68
+      Width = 209
+      Height = 43
+      Cursor = crHandPoint
+      Alignment = taCenter
+      AutoSize = False
+      Caption = '0'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -37
+      Font.Name = 'Arial Narrow'
+      Font.Style = [fsItalic]
+      ParentFont = False
+      OnClick = lblTtlReturPenjualanClick
+    end
+  end
+  object pnl11: TPanel
+    Left = 440
+    Top = 520
+    Width = 225
+    Height = 137
+    Color = clGradientActiveCaption
+    TabOrder = 9
+    object lbl12: TLabel
+      Left = 8
+      Top = 24
+      Width = 209
+      Height = 24
+      Alignment = taCenter
+      AutoSize = False
+      Caption = 'Total Obat'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -21
+      Font.Name = 'Baskerville Old Face'
+      Font.Style = []
+      ParentFont = False
+    end
+    object lblTtlObat: TLabel
+      Left = 8
+      Top = 68
+      Width = 209
+      Height = 43
+      Cursor = crHandPoint
+      Alignment = taCenter
+      AutoSize = False
+      Caption = '0'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -37
+      Font.Name = 'Arial Narrow'
+      Font.Style = [fsItalic]
+      ParentFont = False
+      OnClick = lblTtlObatClick
+    end
+  end
+  object pnl5: TPanel
+    Left = 160
+    Top = 520
+    Width = 233
+    Height = 137
+    Color = clGradientActiveCaption
+    TabOrder = 11
+    object lblTtlSupplier: TLabel
+      Left = 8
+      Top = 68
+      Width = 209
+      Height = 43
+      Cursor = crHandPoint
+      Alignment = taCenter
+      AutoSize = False
+      Caption = '0'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -37
+      Font.Name = 'Arial Narrow'
+      Font.Style = [fsItalic]
+      ParentFont = False
+      OnClick = lblTtlSupplierClick
+    end
+    object lbl7: TLabel
+      Left = 8
+      Top = 24
+      Width = 217
+      Height = 24
+      Alignment = taCenter
+      AutoSize = False
+      Caption = 'Total Supplier'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -21
+      Font.Name = 'Baskerville Old Face'
+      Font.Style = []
+      ParentFont = False
+    end
+  end
+  object pnl17: TPanel
+    Left = 728
+    Top = 528
+    Width = 225
+    Height = 137
+    Color = clActiveCaption
+    TabOrder = 13
+  end
+  object pnl18: TPanel
+    Left = 720
+    Top = 520
+    Width = 225
+    Height = 137
+    Color = clGradientActiveCaption
+    TabOrder = 14
+    object lbl18: TLabel
+      Left = 8
+      Top = 24
+      Width = 209
+      Height = 24
+      Alignment = taCenter
+      AutoSize = False
+      Caption = 'Stok < 5'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -21
+      Font.Name = 'Baskerville Old Face'
+      Font.Style = []
+      ParentFont = False
+    end
+    object lblTtlStok: TLabel
+      Left = 8
+      Top = 68
+      Width = 209
+      Height = 43
+      Cursor = crHandPoint
+      Alignment = taCenter
+      AutoSize = False
+      Caption = '0'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -37
+      Font.Name = 'Arial Narrow'
+      Font.Style = [fsItalic]
+      ParentFont = False
+      OnClick = lblTtlStokClick
+    end
+  end
+  object pnl19: TPanel
+    Left = 1000
+    Top = 520
+    Width = 225
+    Height = 137
+    Color = clGradientActiveCaption
+    TabOrder = 15
+    object lbl20: TLabel
+      Left = 8
+      Top = 24
+      Width = 209
+      Height = 24
+      Alignment = taCenter
+      AutoSize = False
+      Caption = 'Exp Obat < 100 Hari'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -21
+      Font.Name = 'Baskerville Old Face'
+      Font.Style = []
+      ParentFont = False
+    end
+    object lblTtlExp: TLabel
+      Left = 8
+      Top = 68
+      Width = 209
+      Height = 43
+      Cursor = crHandPoint
+      Alignment = taCenter
+      AutoSize = False
+      Caption = '0'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -37
+      Font.Name = 'Arial Narrow'
+      Font.Style = [fsItalic]
+      ParentFont = False
+      OnClick = lblTtlExpClick
     end
   end
   object mm1: TMainMenu
@@ -23557,19 +23865,47 @@ object FMenu: TFMenu
       end
       object Pembelian1: TMenuItem
         Caption = 'Pembelian'
-        OnClick = Pembelian1Click
+        object ListPembelian2: TMenuItem
+          Caption = 'List Pembelian'
+          OnClick = ListPembelian2Click
+        end
+        object Pembelian2: TMenuItem
+          Caption = 'Pembelian'
+          OnClick = Pembelian2Click
+        end
       end
       object Penjualan1: TMenuItem
         Caption = 'Penjualan'
-        OnClick = Penjualan1Click
+        object ListPenjualan2: TMenuItem
+          Caption = 'List Penjualan'
+          OnClick = ListPenjualan2Click
+        end
+        object Penjualan2: TMenuItem
+          Caption = 'Penjualan'
+          OnClick = Penjualan2Click
+        end
       end
-      object ListPembelian1: TMenuItem
-        Caption = 'List Pembelian'
-        OnClick = ListPembelian1Click
+      object ReturPenjualan1: TMenuItem
+        Caption = 'Retur Penjualan'
+        object ListReturPenjualan1: TMenuItem
+          Caption = 'List Retur Penjualan'
+          OnClick = ListReturPenjualan1Click
+        end
+        object ReturPenjualan2: TMenuItem
+          Caption = 'Retur Penjualan'
+          OnClick = ReturPenjualan2Click
+        end
       end
-      object ListPenjualan1: TMenuItem
-        Caption = 'List Penjualan'
-        OnClick = ListPenjualan1Click
+      object ReturPembelian1: TMenuItem
+        Caption = 'Retur Pembelian'
+        object ListReturPembelian1: TMenuItem
+          Caption = 'List Retur Pembelian'
+          OnClick = ListReturPembelian1Click
+        end
+        object ReturPembelian2: TMenuItem
+          Caption = 'Retur Pembelian'
+          OnClick = ReturPembelian2Click
+        end
       end
     end
     object Laporan1: TMenuItem
@@ -23590,6 +23926,17 @@ object FMenu: TFMenu
         Caption = 'Laporan Jumlah Item Terjual'
         OnClick = LaporanItemLaris1Click
       end
+      object LaporanRetur1: TMenuItem
+        Caption = 'Laporan Retur'
+        OnClick = LaporanRetur1Click
+      end
+      object N1: TMenuItem
+        Caption = '-'
+      end
+      object LabaPenjualan1: TMenuItem
+        Caption = 'Laba Penjualan'
+        OnClick = LabaPenjualan1Click
+      end
     end
     object Setting1: TMenuItem
       Caption = 'Setting'
@@ -23600,6 +23947,14 @@ object FMenu: TFMenu
       object Apotik1: TMenuItem
         Caption = 'Apotik'
         OnClick = Apotik1Click
+      end
+      object BackupDatabase1: TMenuItem
+        Caption = 'Backup Database'
+        OnClick = BackupDatabase1Click
+      end
+      object RefreshDashboard1: TMenuItem
+        Caption = 'Refresh Dashboard'
+        OnClick = RefreshDashboard1Click
       end
     end
     object Keluar1: TMenuItem

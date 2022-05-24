@@ -27,7 +27,27 @@ uses
   uLaporanItemTerjual in 'uLaporanItemTerjual.pas' {fLaporanJumlahItemTerjual},
   uDetailPenjualan in 'uDetailPenjualan.pas' {fDetailPenjualan},
   uDetailPembelian in 'uDetailPembelian.pas' {fDetailPembelian},
-  uReturn in 'uReturn.pas' {fReturn};
+  uReturn in 'uReturn.pas' {fReturn},
+  uProsesRetur in 'uProsesRetur.pas' {fProsesRetur},
+  u_confirmReturAll in 'u_confirmReturAll.pas' {fReturAll},
+  uListReturPenjualan in 'uListReturPenjualan.pas' {fListReturPenjualan},
+  uDetailReturPenjualan in 'uDetailReturPenjualan.pas' {fDetailReturPenjualan},
+  u_bayarPenjualan in 'u_bayarPenjualan.pas' {fBayarPenjualan},
+  u_labaPenjualan in 'u_labaPenjualan.pas' {fLabaPenjualan},
+  u_dashboardPembelian in 'u_dashboardPembelian.pas' {fDashboardPembelian},
+  u_dashboardPenjualan in 'u_dashboardPenjualan.pas' {fDashboardPenjualan},
+  u_dashboardSupplier in 'u_dashboardSupplier.pas' {fDashboardSupplier},
+  u_dashboardObat in 'u_dashboardObat.pas' {fDashboardObat},
+  u_dashboardObatStok in 'u_dashboardObatStok.pas' {fDashboardObatStok},
+  u_dashboardExp in 'u_dashboardExp.pas' {fDashboardExp},
+  u_dashboardReturPenjualan in 'u_dashboardReturPenjualan.pas' {fDashboardReturPenjualan},
+  u_returPembelian in 'u_returPembelian.pas' {fReturPembelian},
+  u_returAllPembelian in 'u_returAllPembelian.pas' {fReturAllPembelian},
+  u_listReturPembelian in 'u_listReturPembelian.pas' {fListReturPembelian},
+  u_detailReturPembelian in 'u_detailReturPembelian.pas' {fDetailReturPembelian},
+  u_dashboardReturPembelian in 'u_dashboardReturPembelian.pas' {fDashboardListPembelian},
+  u_laporanRetur in 'u_laporanRetur.pas' {fLaporanRetur},
+  uBackup in 'uBackup.pas' {fbackup};
 
 {$R *.res}
 
@@ -35,7 +55,11 @@ begin
   Application.Initialize;
   Application.CreateForm(Tdm, dm);
   Application.CreateForm(TfLogin, fLogin);
+  Application.CreateForm(TfListPenjualan, fListPenjualan);
   Application.CreateForm(TFMenu, FMenu);
+  Application.CreateForm(TfReturPembelian, fReturPembelian);
+  Application.CreateForm(TfReturn, fReturn);
+  Application.CreateForm(TfDashboardPembelian, fDashboardPembelian);
   Application.CreateForm(TfJenisObat, fJenisObat);
   Application.CreateForm(TFSatuan, FSatuan);
   Application.CreateForm(TFsupplier, Fsupplier);
@@ -48,7 +72,6 @@ begin
   Application.CreateForm(TfBantuObatPenjualan, fBantuObatPenjualan);
   Application.CreateForm(TfBayar, fBayar);
   Application.CreateForm(TfBayarPembelian, fBayarPembelian);
-  Application.CreateForm(TfListPenjualan, fListPenjualan);
   Application.CreateForm(TfPengguna, fPengguna);
   Application.CreateForm(TfSetting, fSetting);
   Application.CreateForm(TfMenuKasir, fMenuKasir);
@@ -58,6 +81,23 @@ begin
   Application.CreateForm(TfLaporanJumlahItemTerjual, fLaporanJumlahItemTerjual);
   Application.CreateForm(TfDetailPenjualan, fDetailPenjualan);
   Application.CreateForm(TfDetailPembelian, fDetailPembelian);
-  Application.CreateForm(TfReturn, fReturn);
+  Application.CreateForm(TfProsesRetur, fProsesRetur);
+  Application.CreateForm(TfReturAll, fReturAll);
+  Application.CreateForm(TfListReturPenjualan, fListReturPenjualan);
+  Application.CreateForm(TfDetailReturPenjualan, fDetailReturPenjualan);
+  Application.CreateForm(TfBayarPenjualan, fBayarPenjualan);
+  Application.CreateForm(TfLabaPenjualan, fLabaPenjualan);
+  Application.CreateForm(TfDashboardPenjualan, fDashboardPenjualan);
+  Application.CreateForm(TfDashboardSupplier, fDashboardSupplier);
+  Application.CreateForm(TfDashboardObat, fDashboardObat);
+  Application.CreateForm(TfDashboardObatStok, fDashboardObatStok);
+  Application.CreateForm(TfDashboardExp, fDashboardExp);
+  Application.CreateForm(TfDashboardReturPenjualan, fDashboardReturPenjualan);
+  Application.CreateForm(TfReturAllPembelian, fReturAllPembelian);
+  Application.CreateForm(TfListReturPembelian, fListReturPembelian);
+  Application.CreateForm(TfDetailReturPembelian, fDetailReturPembelian);
+  Application.CreateForm(TfDashboardListPembelian, fDashboardListPembelian);
+  Application.CreateForm(TfLaporanRetur, fLaporanRetur);
+  Application.CreateForm(Tfbackup, fbackup);
   Application.Run;
 end.

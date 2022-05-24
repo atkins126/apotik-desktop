@@ -1,11 +1,11 @@
 object fLaporanPembelian: TfLaporanPembelian
-  Left = 534
-  Top = 308
+  Left = 301
+  Top = 51
   AutoScroll = False
   BorderIcons = []
   Caption = '.:: Laporan Pembelian Iem ::.'
-  ClientHeight = 755
-  ClientWidth = 1062
+  ClientHeight = 753
+  ClientWidth = 1134
   Color = clGradientInactiveCaption
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -23381,14 +23381,16 @@ object fLaporanPembelian: TfLaporanPembelian
   object grp1: TGroupBox
     Left = 8
     Top = 8
-    Width = 1049
+    Width = 1121
     Height = 57
     TabOrder = 0
     object lbl1: TLabel
-      Left = 376
+      Left = 8
       Top = 16
-      Width = 262
+      Width = 1105
       Height = 27
+      Alignment = taCenter
+      AutoSize = False
       Caption = 'Laporan Pembelian Item'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
@@ -23401,11 +23403,11 @@ object fLaporanPembelian: TfLaporanPembelian
   object grp2: TGroupBox
     Left = 8
     Top = 72
-    Width = 1049
+    Width = 1121
     Height = 673
     TabOrder = 1
     object btnKeluar: TBitBtn
-      Left = 952
+      Left = 1024
       Top = 632
       Width = 89
       Height = 33
@@ -23541,8 +23543,8 @@ object fLaporanPembelian: TfLaporanPembelian
     object dbgrdPembelian: TDBGrid
       Left = 8
       Top = 120
-      Width = 1033
-      Height = 505
+      Width = 1105
+      Height = 465
       DataSource = dm.dsLaporanPembelian
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
@@ -23607,7 +23609,7 @@ object fLaporanPembelian: TfLaporanPembelian
           Title.Font.Height = -15
           Title.Font.Name = 'Arial'
           Title.Font.Style = []
-          Width = 160
+          Width = 90
           Visible = True
         end
         item
@@ -23643,6 +23645,25 @@ object fLaporanPembelian: TfLaporanPembelian
           Visible = False
         end
         item
+          Alignment = taCenter
+          Expanded = False
+          FieldName = 'tgl_jatuh_tempo'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -15
+          Font.Name = 'Arial'
+          Font.Style = []
+          Title.Alignment = taCenter
+          Title.Caption = 'Tgl Jatuh Tempo'
+          Title.Font.Charset = ANSI_CHARSET
+          Title.Font.Color = clWindowText
+          Title.Font.Height = -15
+          Title.Font.Name = 'Arial'
+          Title.Font.Style = []
+          Width = 131
+          Visible = True
+        end
+        item
           Expanded = False
           FieldName = 'user_id'
           Font.Charset = ANSI_CHARSET
@@ -23673,7 +23694,7 @@ object fLaporanPembelian: TfLaporanPembelian
           Title.Font.Height = -15
           Title.Font.Name = 'Arial'
           Title.Font.Style = []
-          Width = 160
+          Width = 107
           Visible = True
         end
         item
@@ -23723,7 +23744,7 @@ object fLaporanPembelian: TfLaporanPembelian
           Title.Font.Height = -15
           Title.Font.Name = 'Arial'
           Title.Font.Style = []
-          Width = 160
+          Width = 328
           Visible = True
         end
         item
@@ -23773,7 +23794,7 @@ object fLaporanPembelian: TfLaporanPembelian
           Title.Font.Height = -15
           Title.Font.Name = 'Arial'
           Title.Font.Style = []
-          Width = 160
+          Width = 72
           Visible = True
         end
         item
@@ -23794,6 +23815,28 @@ object fLaporanPembelian: TfLaporanPembelian
           Width = 160
           Visible = True
         end>
+    end
+    object pnl1: TPanel
+      Left = 8
+      Top = 592
+      Width = 1105
+      Height = 33
+      TabOrder = 8
+      object lblJumlah: TLabel
+        Left = 8
+        Top = 7
+        Width = 1089
+        Height = 18
+        Alignment = taCenter
+        AutoSize = False
+        Caption = 'Laporan Stok Item'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clRed
+        Font.Height = -16
+        Font.Name = 'Arial Narrow'
+        Font.Style = [fsItalic]
+        ParentFont = False
+      end
     end
   end
 end

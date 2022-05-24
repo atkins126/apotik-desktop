@@ -42,6 +42,7 @@ type
     edtBayar: TEdit;
     lbl4: TLabel;
     chkCetak: TCheckBox;
+    edtStatusPenjualan: TEdit;
     procedure btnKeluarClick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
@@ -57,6 +58,7 @@ type
     procedure dbgrd1CellClick(Column: TColumn);
     procedure btnProsesClick(Sender: TObject);
     procedure btnCetakClick(Sender: TObject);
+    procedure btnProsesPendingClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -150,7 +152,13 @@ begin
   btnBantuObat.Enabled := false;
   dbgrd1.Enabled := false;
   chkCetak.Enabled := false;
+
+  edtBayar.Text := '0';
+  edtKembali.Text := '0';
+  
   konek;
+
+  id_penjualan := 'kosong';
 end;
 
 procedure TFpenjualan.btnTambahClick(Sender: TObject);
@@ -226,13 +234,13 @@ end;
 
 procedure TFpenjualan.konek(status: string);
 begin
-with dm.qryRelasiPenjualan do
+  with dm.qryRelasiPenjualan do
     begin
       close;
       sql.Clear;
       SQL.Text := 'select a.id as id_penjualan, a.no_faktur, a.tgl_penjualan, a.jumlah_item, '+
                   'a.total, b.id as id_detail_penjualan, b.obat_id, b.jumlah_jual, b.harga_jual, c.kode, c.barcode, '+
-                  'c.nama_obat, c.tgl_obat, c.tgl_exp, d.jenis, e.satuan from tbl_penjualan a left join '+
+                  'c.nama_obat, c.tgl_obat, c.tgl_exp, d.jenis, e.satuan, b.catatan from tbl_penjualan a left join '+
                   'tbl_detail_penjualan b on b.penjualan_id = a.id left join tbl_obat c on c.id = b.obat_id left join tbl_jenis d '+
                   'on d.id=c.kode_jenis left join tbl_satuan e on e.id = c.kode_satuan where a.no_faktur='+QuotedStr(status)+'';
       open
@@ -251,7 +259,7 @@ begin
           begin
             close;
             SQL.Clear;
-            SQL.Text := 'select * from tbl_penjualan where no_faktur like ''%'+FormatDateTime('yyyy',Now)+'%''';
+            SQL.Text := 'select * from tbl_penjualan where no_faktur like ''%'+FormatDateTime('mmyyyy',Now)+'%''';
             Open;
 
             if IsEmpty then
@@ -271,7 +279,7 @@ begin
             begin
               Append;
               FieldByName('no_faktur').AsString := edtFaktur.Text;
-              FieldByName('tgl_penjualan').AsDateTime := dtpTanggalBeli.Date;
+              FieldByName('tgl_penjualan').AsDateTime := dtpTanggalBeli.DateTime;
               FieldByName('id_pelanggan').AsString := dblkcbbPelanggan.KeyValue;
               FieldByName('jumlah_item').AsString := '0';
               FieldByName('total').AsString := '0';
@@ -357,6 +365,9 @@ begin
       btnSelesai.Enabled := True;
       btnTambah.Caption := 'Batal';
       btnHapus.enabled := false;
+
+      dtpTanggalBeli.Enabled := false;
+      dblkcbbPelanggan.Enabled := false;
     end
   else
     begin
@@ -380,21 +391,43 @@ end;
 
 procedure TFpenjualan.dbgrd1KeyPress(Sender: TObject; var Key: Char);
 var jumlahNew : Integer;
-    totalNew : Real;
-    id : string;
+    totalNew, hargaJual : Real;
+    id,catatan,jenisHarga : string;
 begin
   if key=#13 then
     begin
       //edit data lewat dbgrid
       jumlahNew := dbgrd1.Fields[3].AsInteger;
+      catatan := dbgrd1.Fields[16].AsString;
       id := dbgrd1.Fields[5].AsString;
+      jenisHarga := 'eceran';
+
+      // jika lebih dari jumlah max grosir gunakan harga grosir
+      with dm.qryHarga do
+        begin
+          close;
+          sql.Clear;
+          sql.Text := 'select * from tbl_harga_jual where obat_id = '+QuotedStr(dbgrd1.Fields[6].AsString)+'';
+          Open;
+
+          hargaJual := dm.qryHarga.fieldbyname('harga_jual').AsFloat;
+
+          if dm.qryHarga.FieldByName('qty_max_grosir').AsInteger <> 0 then
+            begin
+              if jumlahNew >= dm.qryHarga.FieldByName('qty_max_grosir').AsInteger then
+                begin
+                  hargaJual := dm.qryHarga.fieldbyname('harga_jual_grosir').AsFloat;
+                  jenisHarga := 'grosir';
+                end
+            end
+        end;
 
       with dm.qryDetailPenjualan do
         begin
           close;
           sql.Clear;
-          SQL.Text := 'update tbl_detail_penjualan set jumlah_jual = '+QuotedStr(IntToStr(jumlahNew))+
-                      ' where obat_id = '+QuotedStr(dbgrd1.Fields[6].AsString)+' and penjualan_id = '+QuotedStr(dbgrd1.Fields[0].AsString)+'';
+          SQL.Text := 'update tbl_detail_penjualan set jumlah_jual = '+QuotedStr(IntToStr(jumlahNew))+', harga_jual = '+QuotedStr(FloatToStr(hargaJual))+', catatan = '+QuotedStr(catatan)+
+                      ', jenis_harga='+QuotedStr(jenisHarga)+' where obat_id = '+QuotedStr(dbgrd1.Fields[6].AsString)+' and penjualan_id = '+QuotedStr(dbgrd1.Fields[0].AsString)+'';
           ExecSQL;
         end;
 
@@ -474,8 +507,14 @@ procedure TFpenjualan.btnProsesClick(Sender: TObject);
 var
   jumlahItem, total : string;
   a : integer;
+  pesan : string;
 begin
-  if MessageDlg('Apakah Transaksi Akan Diselesaikan ?',mtConfirmation,[mbYes,mbno],0)=mryes then
+  if edtStatusPenjualan.Text = 'selesai' then
+    pesan := 'Apakah Transaksi Akan Diselesaikan ?'
+  else
+    pesan := 'Apakah Transaksi Akan Dipending Pembayaran ?';
+
+  if MessageDlg(pesan,mtConfirmation,[mbYes,mbno],0)=mryes then
     begin
       jumlahItem := IntToStr(hitungItem(id_penjualan));
       total := FloatToStr(hitungTotal(id_penjualan));
@@ -485,7 +524,7 @@ begin
           close;
           sql.Clear;
           sql.Text := 'update tbl_penjualan set jumlah_item = '+QuotedStr(jumlahItem)+', total = '+QuotedStr(total)+
-                      ', status = '+QuotedStr('selesai')+', tgl_bayar = '+QuotedStr(FormatDateTime('yyyy-mm-dd hh:mm:ss',Now))+
+                      ', status = '+QuotedStr(edtStatusPenjualan.Text)+', tgl_bayar = '+QuotedStr(FormatDateTime('yyyy-mm-dd hh:mm:ss',Now))+
                       ' where no_faktur = '+QuotedStr(edtFaktur.Text)+'';
           ExecSQL;
         end;
@@ -537,10 +576,12 @@ end;
 
 procedure TFpenjualan.btnCetakClick(Sender: TObject);
 var
+Enter : string;
 txtFile: TextFile;
-nmfile : string;
+nmfile, status : string;
 a, total : Integer;
 begin
+  Enter := #13 + #10;
   with dm.qrySetting do
     begin
       Close;
@@ -549,54 +590,130 @@ begin
       Open;
     end;
 
-  // Buat File dengan Nama Struk.txt
-        nmfile := GetCurrentDir + '\struk.txt';
-        AssignFile(txtFile, nmfile);
-        Rewrite(txtFile);
-        WriteLn(txtFile, '     '+dm.qrySetting.fieldbyname('nama_toko').asString+'   ');
-        WriteLn(txtFile, ''+dm.qrySetting.fieldbyname('alamat').asString+' ');
-        WriteLn(txtFile, '        '+dm.qrySetting.fieldbyname('telp').asString+' ');
-        WriteLn(txtFile, '----------------------------------');
-        WriteLn(txtFile, 'No. Nota:' + edtFaktur.text );
-        WriteLn(txtFile, 'Tanggal :' + FormatDateTime('dd/mm/yyyy hh:mm:ss', now));
-        WriteLn(txtFile, 'Kasir   :' + dm.qryUser.fieldbyname('nama').asString);
-        WriteLn(txtFile, '----------------------------------');
-        WriteLn(txtFile, 'Nama Barang');
-        WriteLn(txtFile, RataKanan('      QTY   Harga ', 'Sub Total', 35, ' '));
-        WriteLn(txtFile, '----------------------------------');
+  with dm.qryPenjualan do
+    begin
+      Close;
+      sql.Clear;
+      SQL.Text := 'select * from tbl_penjualan where no_faktur = '+QuotedStr(edtFaktur.Text)+'';
+      Open;
+    end;
 
-        a := 1;
-        with dm.qryRelasiPenjualan do
+  if dm.qryPenjualan.FieldByName('status').AsString = 'selesai' then status := 'Lunas' else status := 'Kredit';
+
+    // Buat File dengan Nama Struk.txt
+    nmfile := GetCurrentDir + '\struk.txt';
+    AssignFile(txtFile, nmfile);
+    Rewrite(txtFile);
+    WriteLn(txtFile, '     '+dm.qrySetting.fieldbyname('nama_toko').asString+'   ');
+    WriteLn(txtFile, ''+dm.qrySetting.fieldbyname('alamat').asString+' ');
+    WriteLn(txtFile, '        '+dm.qrySetting.fieldbyname('telp').asString+' ');
+    WriteLn(txtFile, '    Tersedia Obat-Obatan');
+    WriteLn(txtFile, '      Herbal dan Alkes');
+
+    WriteLn(txtFile, '---------------------------------');
+    WriteLn(txtFile, 'No. Nota:' + edtFaktur.text );
+    WriteLn(txtFile, 'Tanggal :' + FormatDateTime('dd/mm/yyyy hh:mm:ss', now));
+    WriteLn(txtFile, 'Kasir   :' + dm.qryUser.fieldbyname('nama').asString);
+    WriteLn(txtFile, 'Status Jual :' + status);
+    WriteLn(txtFile, '---------------------------------');
+    WriteLn(txtFile, 'Nama Barang');
+    WriteLn(txtFile, RataKanan('      QTY   Harga ', 'Sub Total', 32, ' '));
+    WriteLn(txtFile, '---------------------------------');
+
+    a := 1;
+    with dm.qryRelasiPenjualan do
+      begin
+        for a:=1 to RecordCount do
           begin
-            for a:=1 to RecordCount do
-              begin
-                RecNo := a;
-                total := fieldbyname('jumlah_jual').AsInteger * fieldbyname('harga_jual').AsInteger;
+            RecNo := a;
+            total := fieldbyname('jumlah_jual').AsInteger * fieldbyname('harga_jual').AsInteger;
 
-                WriteLn(txtFile,' '+fieldbyname('nama_obat').asString);
-                WriteLn(txtFile, RataKanan
-                ('      ' + fieldbyname('jumlah_jual').asString +' X '+FormatFloat('###,###,###',fieldbyname('harga_jual').AsInteger)+' ',FormatFloat('###,###,###',total), 35, ' '));
+            WriteLn(txtFile,' '+fieldbyname('nama_obat').asString);
+            WriteLn(txtFile, RataKanan
+                ('      ' + fieldbyname('jumlah_jual').asString +' X '+FormatFloat('###,###,###',fieldbyname('harga_jual').AsInteger)+' ',FormatFloat('###,###,###',total), 32, ' '));
 
-                Next;
-              end;
+            Next;
           end;
+      end;
 
-         WriteLn(txtFile, '----------------------------------');
-         WriteLn(txtFile, RataKanan('Total   : ', FormatFloat('Rp. ###,###,###', hitungTotal(id_penjualan)), 35,
+    WriteLn(txtFile, '---------------------------------');
+    WriteLn(txtFile, RataKanan('Total   : ', FormatFloat('Rp. ###,###,###', hitungTotal(id_penjualan)), 32,
          ' '));
-         WriteLn(txtFile, RataKanan('Bayar   : ', FormatFloat('Rp. ###,###,###', StrToInt(edtBayar.Text)), 35,
+    WriteLn(txtFile, RataKanan('Bayar   : ', FormatFloat('Rp. ###,###,###', StrToInt(edtBayar.Text)), 32,
          ' '));
-         WriteLn(txtFile, RataKanan('Kembali : ', FormatFloat('Rp. ###,###,###', StrToInt(edtKembali.Text)), 35,
+    WriteLn(txtFile, RataKanan('Kembali : ', FormatFloat('Rp. ###,###,###', StrToInt(edtKembali.Text)), 32,
          ' '));
-         WriteLn(txtFile, '----------------------------------');
-         WriteLn(txtFile, ' Jumlah Item  : ' + IntToStr(hitungItem(id_penjualan)));
-         WriteLn(txtFile, '----------------------------------');
-         WriteLn(txtFile, '         Terima Kasih');
-         WriteLn(txtFile, '    Berelaan Jual Seadannya');
-         WriteLn(txtFile, #13 + #10 + #13 + #10 + #13 + #10 + #13 + #10 + #13 + #10 + #13 + #10 + #13 + #10 + #13 + #10 + #13 + #10 + #13 + #10 );
-         CloseFile(txtFile);
-         // Cetak File Struk.txt
-   cetakFile('struk.txt');
+    WriteLn(txtFile, '---------------------------------');
+    WriteLn(txtFile, ' Jumlah Item  : ' + IntToStr(hitungItem(id_penjualan)));
+    WriteLn(txtFile, '---------------------------------');
+    WriteLn(txtFile, '         Terima Kasih');
+    WriteLn(txtFile, '    Berelaan Jual Seadannya');
+    WriteLn(txtFile, Enter + Enter + Enter + Enter + Enter + Enter + Enter + Enter + Enter + Enter );
+    CloseFile(txtFile);
+    // Cetak File Struk.txt
+    cetakFile('struk.txt');
+end;
+
+procedure TFpenjualan.btnProsesPendingClick(Sender: TObject);
+var
+  jumlahItem, total : string;
+  a : integer;
+begin
+  if MessageDlg('Apakah Transaksi Akan DiPending?',mtConfirmation,[mbYes,mbno],0)=mryes then
+    begin
+      jumlahItem := IntToStr(hitungItem(id_penjualan));
+      total := FloatToStr(hitungTotal(id_penjualan));
+
+      with dm.qryPenjualan do
+        begin
+          close;
+          sql.Clear;
+          sql.Text := 'update tbl_penjualan set jumlah_item = '+QuotedStr(jumlahItem)+', total = '+QuotedStr(total)+
+                      ', status = '+QuotedStr('pending')+', tgl_bayar = '+QuotedStr(FormatDateTime('yyyy-mm-dd hh:mm:ss',Now))+
+                      ' where no_faktur = '+QuotedStr(edtFaktur.Text)+'';
+          ExecSQL;
+        end;
+
+      with dm.qryDetailPenjualan do
+        begin
+          Close;
+          SQL.Clear;
+          SQL.Text := 'select * from tbl_detail_penjualan where penjualan_id = '+QuotedStr(id_penjualan)+'';
+          Open;
+
+          for a:=1 to RecordCount do
+            begin
+              RecNo := a;
+
+              with dm.qryObat do
+                begin
+                  close;
+                  SQL.Clear;
+                  SQL.Text := 'select * from tbl_obat';
+                  Open;
+                  
+                  if locate('id',dm.qryDetailPenjualan.fieldbyname('obat_id').AsString,[]) then
+                    begin
+                      Edit;
+                      FieldByName('stok').AsInteger := fieldbyname('stok').AsInteger - dm.qryDetailPenjualan.fieldbyname('jumlah_jual').AsInteger;
+                      Post;
+                    end;
+                end;
+
+              Next;
+            end;
+        end;
+
+      with dm.qrySetting do
+          begin
+            close;
+            sql.Clear;
+            SQL.Text := 'select * from tbl_setting';
+            Open;
+          end;
+          
+      FormShow(Sender);
+    end;
 end;
 
 end.

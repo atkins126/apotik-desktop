@@ -1,11 +1,11 @@
 object fLaporanStok: TfLaporanStok
-  Left = 453
-  Top = 229
+  Left = 330
+  Top = 140
   AutoScroll = False
   BorderIcons = []
   Caption = '.:: Laporan Stok Item ::.'
-  ClientHeight = 665
-  ClientWidth = 1064
+  ClientHeight = 654
+  ClientWidth = 1137
   Color = clGradientInactiveCaption
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -23381,14 +23381,16 @@ object fLaporanStok: TfLaporanStok
   object grp1: TGroupBox
     Left = 8
     Top = 8
-    Width = 1049
+    Width = 1121
     Height = 57
     TabOrder = 0
     object lbl1: TLabel
-      Left = 424
+      Left = 8
       Top = 16
-      Width = 196
+      Width = 1105
       Height = 27
+      Alignment = taCenter
+      AutoSize = False
       Caption = 'Laporan Stok Item'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
@@ -23401,11 +23403,11 @@ object fLaporanStok: TfLaporanStok
   object grp2: TGroupBox
     Left = 8
     Top = 72
-    Width = 1049
-    Height = 585
+    Width = 1121
+    Height = 577
     TabOrder = 1
     object btnKeluar: TBitBtn
-      Left = 952
+      Left = 1024
       Top = 536
       Width = 89
       Height = 33
@@ -23422,8 +23424,8 @@ object fLaporanStok: TfLaporanStok
     object dbgrdStok: TDBGrid
       Left = 8
       Top = 24
-      Width = 1033
-      Height = 505
+      Width = 1105
+      Height = 465
       DataSource = dm.dsLaporanStok
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
@@ -23460,7 +23462,7 @@ object fLaporanStok: TfLaporanStok
           Title.Font.Height = -15
           Title.Font.Name = 'Arial'
           Title.Font.Style = []
-          Width = 190
+          Width = 117
           Visible = True
         end
         item
@@ -23485,7 +23487,7 @@ object fLaporanStok: TfLaporanStok
           Title.Font.Height = -15
           Title.Font.Name = 'Arial'
           Title.Font.Style = []
-          Width = 190
+          Width = 306
           Visible = True
         end
         item
@@ -23547,20 +23549,6 @@ object fLaporanStok: TfLaporanStok
           Visible = False
         end
         item
-          Alignment = taCenter
-          Expanded = False
-          FieldName = 'stok'
-          Title.Alignment = taCenter
-          Title.Caption = 'Stok'
-          Title.Font.Charset = ANSI_CHARSET
-          Title.Font.Color = clWindowText
-          Title.Font.Height = -15
-          Title.Font.Name = 'Arial'
-          Title.Font.Style = []
-          Width = 190
-          Visible = True
-        end
-        item
           Expanded = False
           FieldName = 'id_1'
           Title.Alignment = taCenter
@@ -23594,7 +23582,56 @@ object fLaporanStok: TfLaporanStok
           Title.Font.Style = []
           Width = 190
           Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'harga_beli_terakhir'
+          Title.Alignment = taCenter
+          Title.Caption = 'Harga Beli'
+          Title.Font.Charset = ANSI_CHARSET
+          Title.Font.Color = clWindowText
+          Title.Font.Height = -15
+          Title.Font.Name = 'Arial'
+          Title.Font.Style = []
+          Width = 123
+          Visible = True
+        end
+        item
+          Alignment = taCenter
+          Expanded = False
+          FieldName = 'stok'
+          Title.Alignment = taCenter
+          Title.Caption = 'Stok'
+          Title.Font.Charset = ANSI_CHARSET
+          Title.Font.Color = clWindowText
+          Title.Font.Height = -15
+          Title.Font.Name = 'Arial'
+          Title.Font.Style = []
+          Width = 101
+          Visible = True
         end>
+    end
+    object pnl1: TPanel
+      Left = 8
+      Top = 496
+      Width = 1105
+      Height = 33
+      TabOrder = 2
+      object lblJumlah: TLabel
+        Left = 8
+        Top = 7
+        Width = 1089
+        Height = 18
+        Alignment = taCenter
+        AutoSize = False
+        Caption = 'Laporan Stok Item'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clRed
+        Font.Height = -16
+        Font.Name = 'Arial Narrow'
+        Font.Style = [fsItalic]
+        ParentFont = False
+      end
     end
   end
 end

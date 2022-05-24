@@ -23,6 +23,7 @@ type
     edtKmbalian: TEdit;
     btnBayar: TBitBtn;
     img1: TImage;
+    btnPending: TBitBtn;
     procedure edtBayarKeyPress(Sender: TObject; var Key: Char);
     procedure btnBayarClick(Sender: TObject);
     procedure btnKeluarClick(Sender: TObject);
@@ -31,6 +32,7 @@ type
       Shift: TShiftState);
     procedure FormKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
+    procedure btnPendingClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -88,6 +90,7 @@ begin
 
   Fpenjualan.edtBayar.Text := edtByar.Text;
   Fpenjualan.edtKembali.Text := edtKmbalian.Text;
+  Fpenjualan.edtStatusPenjualan.Text := 'selesai';
   Fpenjualan.btnProses.Click;
 
   Close;
@@ -102,7 +105,6 @@ procedure TfBayar.FormShow(Sender: TObject);
 begin
   edtByar.Enabled := True; edtBayar.SetFocus;
   Ribuan(edtTotalBayar);
-  edtKembalian.Text := '0'; edtKmbalian.Text := '0';
 end;
 
 procedure TfBayar.edtBayarKeyUp(Sender: TObject; var Key: Word;
@@ -112,6 +114,13 @@ begin
     begin
       edtByar.Text := '0';
       edtKembalian.Text := '0';
+      Exit;
+    end;
+
+  if edtBayar.Text = '0' then
+    begin
+      edtKmbalian.Text := '0';
+      edtByar.Text := '0';
       Exit;
     end;
 
@@ -131,9 +140,20 @@ procedure TfBayar.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   case Key of
+    VK_F8: btnPending.Click;
     VK_F9: btnBayar.Click;
     VK_f10: btnKeluar.Click;
   end;
+end;
+
+procedure TfBayar.btnPendingClick(Sender: TObject);
+begin
+  edtBayar.Text := '0';
+  edtKembalian.Text := '0';
+
+  Fpenjualan.edtStatusPenjualan.Text := 'pending';
+  Fpenjualan.btnProses.Click;
+  close;
 end;
 
 end.

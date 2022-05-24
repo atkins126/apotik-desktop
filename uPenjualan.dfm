@@ -1,6 +1,6 @@
 object Fpenjualan: TFpenjualan
-  Left = 285
-  Top = 198
+  Left = 479
+  Top = 168
   AutoScroll = False
   BorderIcons = []
   Caption = '.:: Form Penjualan ::.'
@@ -23605,7 +23605,7 @@ object Fpenjualan: TFpenjualan
           Title.Font.Height = -13
           Title.Font.Name = 'Arial'
           Title.Font.Style = []
-          Width = 619
+          Width = 376
           Visible = True
         end
         item
@@ -23624,7 +23624,7 @@ object Fpenjualan: TFpenjualan
           Title.Font.Height = -13
           Title.Font.Name = 'Arial'
           Title.Font.Style = []
-          Width = 212
+          Width = 250
           Visible = True
         end
         item
@@ -23643,7 +23643,7 @@ object Fpenjualan: TFpenjualan
           Title.Font.Height = -13
           Title.Font.Name = 'Arial'
           Title.Font.Style = []
-          Width = 240
+          Width = 242
           Visible = True
         end
         item
@@ -23662,7 +23662,7 @@ object Fpenjualan: TFpenjualan
           Title.Font.Height = -13
           Title.Font.Name = 'Arial'
           Title.Font.Style = []
-          Width = 122
+          Width = 175
           Visible = True
         end
         item
@@ -23681,7 +23681,25 @@ object Fpenjualan: TFpenjualan
           Title.Font.Height = -13
           Title.Font.Name = 'Arial'
           Title.Font.Style = []
-          Width = 152
+          Width = 156
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'catatan'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -15
+          Font.Name = 'Arial Narrow'
+          Font.Style = []
+          Title.Alignment = taCenter
+          Title.Caption = 'Catatan'
+          Title.Font.Charset = ANSI_CHARSET
+          Title.Font.Color = clWindowText
+          Title.Font.Height = -13
+          Title.Font.Name = 'Arial'
+          Title.Font.Style = []
+          Width = 157
           Visible = True
         end>
     end
@@ -23806,6 +23824,7 @@ object Fpenjualan: TFpenjualan
       Width = 121
       Height = 25
       Date = 44561.580060370370000000
+      Format = 'dd/MM/yyyy'
       Time = 44561.580060370370000000
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
@@ -24039,7 +24058,7 @@ object Fpenjualan: TFpenjualan
       Visible = False
     end
     object edtBayar: TEdit
-      Left = 1072
+      Left = 984
       Top = 16
       Width = 121
       Height = 21
@@ -24062,6 +24081,15 @@ object Fpenjualan: TFpenjualan
       ParentFont = False
       State = cbChecked
       TabOrder = 17
+    end
+    object edtStatusPenjualan: TEdit
+      Left = 1112
+      Top = 8
+      Width = 121
+      Height = 21
+      TabOrder = 18
+      Text = 'edtStatusPenjualan'
+      Visible = False
     end
   end
 end
